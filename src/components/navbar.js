@@ -1,17 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
-        <nav className="bg-black py-4">
-            <div className="text-center text-2xl font-bold text-white mb-2">J + M</div>
-            <ul className="flex justify-center space-x-6">
-                <li><a href="#bienvenidos" className="hover:underline text-white">¡BIENVENIDOS!</a></li>
-                <li><a href="#blog-de-boda" className="hover:underline text-white">BLOG DE BODA</a></li>
-                <li><Link to="#confirmacion" className="hover:underline text-white">CONFIRMA TU ASISTENCIA</Link></li>
-                <li><a href="#contactanos" className="hover:underline text-white">CONTÁCTANOS</a></li>
-                <li><a href="#libro-de-visitas" className="hover:underline text-white">LIBRO DE VISITAS</a></li>
-            </ul>
+        <nav className="bg-gradient-to-r from-pink-500 via-red-300 to-yellow-200 py-4">
+            <div className="flex items-center justify-between px-4">
+                <div className="text-3xl font-extrabold text-gray-800" style={{ fontFamily: 'Great Vibes, cursive' }}>
+                    J + M
+                </div>
+                <button 
+                    className="md:hidden text-black focus:outline-none" 
+                    onClick={toggleMenu}
+                >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+                <div className="hidden md:flex space-x-6">
+                    <a href="#bienvenidos" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">¡BIENVENIDOS!</a>
+                    <a href="#blog-de-boda" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">BLOG DE BODA</a>
+                    <Link to="#confirmacion" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">CONFIRMA TU ASISTENCIA</Link>
+                    <a href="#contactanos" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">CONTÁCTANOS</a>
+                    <a href="#libro-de-visitas" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">LIBRO DE VISITAS</a>
+                </div>
+            </div>
+            <div className={`md:hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-screen' : 'max-h-0'} overflow-hidden`}>
+                <ul className="flex flex-col items-center space-y-4 mt-4 text-center">
+                    <li><a href="#bienvenidos" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">¡BIENVENIDOS!</a></li>
+                    <li><a href="#blog-de-boda" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">BLOG DE BODA</a></li>
+                    <li><Link to="#confirmacion" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">CONFIRMA TU ASISTENCIA</Link></li>
+                    <li><a href="#contactanos" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">CONTÁCTANOS</a></li>
+                    <li><a href="#libro-de-visitas" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">LIBRO DE VISITAS</a></li>
+                </ul>
+            </div>
         </nav>
     );
 };

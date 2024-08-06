@@ -4,7 +4,14 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'elegant': ['Great Vibes', 'cursive'],
+      },
+      colors: {
+        'custom-brown': '#90686F',
+      }
+    },
   },
   plugins: [],
 }
