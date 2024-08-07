@@ -1,3 +1,4 @@
+// src/components/Header.js
 import React from 'react';
 import Countdown from './Countdown'; // Asegúrate de importar el componente Countdown
 import Icono from '../assets/icons/corazon.png';
@@ -5,20 +6,32 @@ import Icono from '../assets/icons/corazon.png';
 const Header = () => {
     const targetDate = "2024-08-15T00:00:00";
 
+    const scrollToAsistencia = () => {
+        const asistenciaElement = document.getElementById('asistencia');
+        if (asistenciaElement) {
+            // Scroll suavemente con alineación centrada
+            asistenciaElement.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'nearest'
+            });
+        }
+    };
+
     return (
         <div className="relative flex flex-col items-center justify-center text-center p-8 min-h-screen">
             {/* Imagen de fondo con gradiente */}
             <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
-                    backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url(/images/tela.jpeg)',
+                    backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.5)), url(/images/image3.jpg)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                 }}
             />
 
             {/* Contenedor principal con marco transparente */}
-            <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center p-4 font-serif">
+            <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center mt-20 font-serif">
                 {/* Marco transparente con fecha y nombres */}
                 <div className="bg-white bg-opacity-60 border-4 border-white p-6 rounded-lg shadow-lg relative">
                     <div className="mb-4">
@@ -30,22 +43,19 @@ const Header = () => {
 
                     {/* Botón "Asistir" */}
                     <a
-                        href="#rsvp" // Puedes cambiar el enlace o acción según tu necesidad
-                        className="absolute bottom-[-2rem] left-1/2 transform -translate-x-1/2 bg-custom-brown text-white py-2 px-6 rounded-lg shadow-lg font-bold text-lg hover:bg-blue-800"
+                        href="#asistencia"
+                        onClick={(e) => {
+                            e.preventDefault(); // Evita el comportamiento por defecto del ancla
+                            scrollToAsistencia();
+                        }}
+                        className="absolute bottom-[-2rem] left-1/2 -translate-x-1/2 bg-custom-brown text-white py-2 px-6 rounded-lg shadow-lg font-bold text-lg transition-transform transform hover:scale-105 hover:bg-white hover:text-custom-brown hover:shadow-xl"
                     >
                         Asistir
                     </a>
                 </div>
 
-                {/* Mensaje de invitación */}
-                <div className='pt-10 w-3/4 md:w-2/4'>
-                    <div className='flex justify-center'>
-                        <img src={Icono} alt="Icono" className="w-8 h-8 mb-4" />
-                    </div>
-                    <p className='font-bold text-xl md:text-2xl text-custom-brown'>
-                        Estamos encantados de invitarte a celebrar nuestro matrimonio
-                    </p>
-                </div>
+               
+                
             </div>
 
             {/* Contador de cuenta regresiva */}

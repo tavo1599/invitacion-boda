@@ -8,14 +8,25 @@ const Navbar = () => {
         setIsOpen(!isOpen);
     };
 
+    const scrollToSection = (id) => {
+        const section = document.getElementById(id);
+        if (section) {
+            section.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center', // Centra la sección verticalmente
+                inline: 'nearest'
+            });
+        }
+    };
+
     return (
-        <nav className="bg-zinc-900 py-4">
+        <nav className="fixed top-0 left-0 right-0 bg-gradient-to-r from-[#705d5d] via-[#a486a9] to-[#264663] py-4 shadow-lg z-50">
             <div className="flex items-center justify-between px-4">
-                <div className="text-3xl font-extrabold text-custom-brown" style={{ fontFamily: 'Great Vibes, cursive' }}>
+                <div className="text-3xl font-extrabold text-white" style={{ fontFamily: 'Great Vibes, cursive' }}>
                     J + M
                 </div>
-                <button 
-                    className="md:hidden text-black focus:outline-none" 
+                <button
+                    className="md:hidden text-white focus:outline-none"
                     onClick={toggleMenu}
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -23,20 +34,16 @@ const Navbar = () => {
                     </svg>
                 </button>
                 <div className="hidden md:flex space-x-6">
-                    <a href="#bienvenidos" className="font-bold text-custom-brown hover:text-violet-200 mb-2 transition">¡BIENVENIDOS!</a>
-                    <a href="#blog-de-boda" className="font-bold text-custom-brown hover:text-violet-200 mb-2 transition">BLOG DE BODA</a>
-                    <Link to="#confirmacion" className="font-bold text-custom-brown hover:text-violet-200 mb-2 transition">CONFIRMA TU ASISTENCIA</Link>
-                    <a href="#contactanos" className="font-bold text-custom-brown hover:text-violet-200 mb-2 transition">CONTÁCTANOS</a>
-                    <a href="#libro-de-visitas" className="font-bold text-custom-brown hover:text-violet-200 mb-2 transition">LIBRO DE VISITAS</a>
+                    <a href="#asistencia" onClick={(e) => { e.preventDefault(); scrollToSection('asistencia'); }} className="font-bold text-white hover:text-[#FFD700] transition">CONFIRMA TU ASISTENCIA</a>
+                    <a href="#contactanos" onClick={(e) => { e.preventDefault(); scrollToSection('contactanos'); }} className="font-bold text-white hover:text-[#FFD700] transition">CONTÁCTANOS</a>
+                    <a href="#libro-de-visitas" onClick={(e) => { e.preventDefault(); scrollToSection('libro-de-visitas'); }} className="font-bold text-white hover:text-[#FFD700] transition">LIBRO DE VISITAS</a>
                 </div>
             </div>
             <div className={`md:hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-screen' : 'max-h-0'} overflow-hidden`}>
                 <ul className="flex flex-col items-center space-y-4 mt-4 text-center">
-                    <li><a href="#bienvenidos" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">¡BIENVENIDOS!</a></li>
-                    <li><a href="#blog-de-boda" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">BLOG DE BODA</a></li>
-                    <li><Link to="#confirmacion" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">CONFIRMA TU ASISTENCIA</Link></li>
-                    <li><a href="#contactanos" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">CONTÁCTANOS</a></li>
-                    <li><a href="#libro-de-visitas" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">LIBRO DE VISITAS</a></li>
+                    <li><a href="#asistencia" onClick={(e) => { e.preventDefault(); scrollToSection('asistencia'); }} className="font-bold text-white hover:text-[#FFD700] transition">CONFIRMA TU ASISTENCIA</a></li>
+                    <li><a href="#contactanos" onClick={(e) => { e.preventDefault(); scrollToSection('contactanos'); }} className="font-bold text-white hover:text-[#FFD700] transition">CONTÁCTANOS</a></li>
+                    <li><a href="#libro-de-visitas" onClick={(e) => { e.preventDefault(); scrollToSection('libro-de-visitas'); }} className="font-bold text-white hover:text-[#FFD700] transition">LIBRO DE VISITAS</a></li>
                 </ul>
             </div>
         </nav>
