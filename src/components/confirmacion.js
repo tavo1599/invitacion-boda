@@ -4,6 +4,7 @@ import Mesa from './mesa';
 import useFetch from './useFetch';
 import axios from 'axios';
 import { API_URL } from './env';
+import Swal from 'sweetalert2'
 
 const Confirmacion = () => {
     const [name, setName] = useState('');
@@ -17,33 +18,53 @@ const Confirmacion = () => {
     const [email, setEmail] = useState(null);
     const [selectedSeats, setSelectedSeats] = useState({}); // Estado para los asientos seleccionados
     const [selectedTable, setSelectedTable] = useState(null); // Mesa seleccionada
-
+    const [guestId, setGuestId] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (attending === 'yes') {
-            setShowMesa(true);
+            const data = {
+                name: name,
+                lastname: lastName,
+                phone: phone,
+                email: email,
+                dish: dish,
+                response: 'asistire'
+            };
+
+            try {
+                const response = await axios.post(`${API_URL}/guests`, data);
+                setGuestId(response.data.guest.id);
+                Swal.fire({
+                    title: "Gracias por acompañarnos " + response.data.guest.name + " !",
+                    text: "Seleciona tu mesa y la cantidad que ocuparas",
+                    icon: "success"
+                });
+                // console.log('Guest creado:', response.data);
+                setShowMesa(true);
+            } catch (error) {
+                if (error.response && error.response.status === 400) {
+                    Swal.fire({
+                        title: "Ocurrió un error!",
+                        text: "Verifica los datos que estás enviando",
+                        icon: "error"
+                      });
+                  } else {
+                    Swal.fire({
+                      title: "Ocurrió un error en el servidor!",
+                      text: "Reportalo a 918982123",
+                      icon: "error"
+                    });
+                  }
+                //   console.error('Error al crear el guest:', error);
+                  setShowMesa(false);
+            }
+
         } else {
             console.log('Formulario enviado: No asiste');
         }
 
-        const data = {
-            name: name,
-            lastname: lastName,
-            phone: phone,
-            email: email,
-            dish: dish,
-            // numGuests: numGuests,
-            // specialRequests: specialRequests,
-        };
 
-        try {
-            const response = await axios.post(`${API_URL}/guests`, data);
-            const guestId = response.data.id;
-            console.log('Guest creado:', response.data);
-        } catch (error) {
-            console.error('Error al crear el guest:', error);
-        }
     };
 
     return (
@@ -54,9 +75,11 @@ const Confirmacion = () => {
                         <label className="block text-lg font-medium mb-2">¿Asistirás?</label>
                         <div className="flex space-x-4 justify-center mb-4">
                             <label>
+
                                 <input
                                     type="radio"
                                     name="attending"
+                                    className='rounded-none'
                                     value="yes"
                                     checked={attending === 'yes'}
                                     onChange={() => setAttending('yes')}
@@ -172,9 +195,8 @@ const Confirmacion = () => {
                                         className="w-full p-2 border border-gray-300 rounded"
                                     >
                                         <option value="pollo">Pollo</option>
-                                        <option value="chancho">Chancho</option>
+                                        <option value="cerdo">Chancho</option>
                                         <option value="res">Res</option>
-                                        <option value="vegetariana">Vegetariana</option>
                                     </select>
                                 </div>
                             </div>
