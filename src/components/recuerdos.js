@@ -41,7 +41,7 @@ const Recuerdo = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-fuchsia-100 text-black">
+        <div className="flex justify-center items-center min-h-screen bg-fuchsia-200 text-black">
             <div className=" p-8 rounded-lg  ">
             <div className="flex justify-center">
                 <img src={Icono} alt="Icono" className="w-20 h-20 mb-4" />
