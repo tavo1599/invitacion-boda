@@ -19,12 +19,14 @@ const Confirmacion = () => {
         e.preventDefault();
         if (attending === 'yes') {
             setShowMesa(true);
+        } else {
+            // Aquí puedes agregar la lógica para manejar el envío cuando no asisten
+            console.log('Formulario enviado: No asiste');
         }
     };
 
     return (
         <div className="max-w-2xl mx-auto p-4 bg-pink-200 text-black rounded">
-            
             {!showMesa ? (
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
@@ -53,7 +55,44 @@ const Confirmacion = () => {
                         </div>
                     </div>
 
-                    {attending === 'yes' && (
+                    
+                    {(attending === 'yes' || attending === 'no') && (
+                        <>
+                            <div className="mb-4">
+                                <label className="block text-lg font-medium mb-2">Nombre</label>
+                                <input 
+                                    type="text" 
+                                    value={name} 
+                                    onChange={(e) => setName(e.target.value)} 
+                                    className="w-full p-2 border border-gray-300 rounded"
+                                    required
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="block text-lg font-medium mb-2">Apellidos</label>
+                                <input 
+                                    type="text" 
+                                    value={lastName} 
+                                    onChange={(e) => setLastName(e.target.value)} 
+                                    className="w-full p-2 border border-gray-300 rounded"
+                                    required
+                                />
+                            </div>
+                            
+                            <div className="mb-4">
+                                <label className="block text-lg font-medium mb-2">Número de teléfono</label>
+                                <input 
+                                    type="tel" 
+                                    value={phone} 
+                                    onChange={(e) => setPhone(e.target.value)} 
+                                    className="w-full p-2 border border-gray-300 rounded"
+                                    required
+                                />
+                            </div>
+                        </>
+                    )}
+
+{attending === 'yes' && (
                         <>
                             <div className="mb-4">
                                 <label className="block text-lg font-medium mb-2">Número de asistentes</label>
@@ -91,60 +130,34 @@ const Confirmacion = () => {
                         </>
                     )}
 
-                    {(attending === 'yes' || attending === 'no') && (
-                        <>
-                            <div className="mb-4">
-                                <label className="block text-lg font-medium mb-2">Nombre</label>
-                                <input 
-                                    type="text" 
-                                    value={name} 
-                                    onChange={(e) => setName(e.target.value)} 
-                                    className="w-full p-2 border border-gray-300 rounded"
-                                    required
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block text-lg font-medium mb-2">Apellidos</label>
-                                <input 
-                                    type="text" 
-                                    value={lastName} 
-                                    onChange={(e) => setLastName(e.target.value)} 
-                                    className="w-full p-2 border border-gray-300 rounded"
-                                    required
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block text-lg font-medium mb-2">Correo electrónico</label>
-                                <input 
-                                    type="email" 
-                                    value={email} 
-                                    onChange={(e) => setEmail(e.target.value)} 
-                                    className="w-full p-2 border border-gray-300 rounded"
-                                    required={attending === 'yes'}
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label className="block text-lg font-medium mb-2">Número de teléfono</label>
-                                <input 
-                                    type="tel" 
-                                    value={phone} 
-                                    onChange={(e) => setPhone(e.target.value)} 
-                                    className="w-full p-2 border border-gray-300 rounded"
-                                    required
-                                />
-                            </div>
-                        </>
+
+                    {attending === 'yes' && (
+                        <button 
+                            type="submit" 
+                            className="px-6 py-3 bg-cyan-600 text-white font-bold rounded hover:bg-cyan-700"
+                        >
+                            Elegir Mesa
+                        </button>
                     )}
-                    
-                    <button 
-                        type="submit" 
-                        className="px-6 py-3 bg-cyan-600 text-white font-bold rounded hover:bg-cyan-700"
-                    >
-                        Elegir Mesa
-                    </button>
+
+                    {attending === 'no' && (
+                        <button 
+                            type="submit" 
+                            className="px-6 py-3 bg-cyan-600 text-white font-bold rounded hover:bg-cyan-700"
+                        >
+                            Enviar
+                        </button>
+                    )}
                 </form>
             ) : (
-                <Mesa numGuests={numGuests} selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} selectedTable={selectedTable} setSelectedTable={setSelectedTable} />
+                <Mesa 
+                    numGuests={numGuests} 
+                    selectedSeats={selectedSeats} 
+                    setSelectedSeats={setSelectedSeats} 
+                    selectedTable={selectedTable} 
+                    setSelectedTable={setSelectedTable} 
+                    name={name.split(' ')[0]} // Pasar el primer nombre
+                />
             )}
         </div>
     );

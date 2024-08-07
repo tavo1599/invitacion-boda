@@ -1,8 +1,7 @@
-// src/components/Mesa.js
 import React, { useState } from 'react';
 import Icono from '../assets/icons/confirmar-asistencia.png';
 
-const Mesa = ({ numGuests, selectedSeats, setSelectedSeats }) => {
+const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name }) => {
     const [selectedTable, setSelectedTable] = useState(null);
     const [showConfirmation, setShowConfirmation] = useState(false);
 
@@ -33,17 +32,43 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats }) => {
 
     const handleRegister = () => {
         setShowConfirmation(true);
-        // Aquí puedes manejar el registro de la selección de sillas
         console.log('Sillas registradas:', selectedSeats[selectedTable * 8]);
-        // Puedes agregar lógica adicional para registrar la selección
     };
+
+    const renderTable = (index, type, label) => {
+        const isTable = type === 'table';
+        const shapeClass = label ? 'w-48 h-24' : 'w-24 h-24 rounded-full';
+        const bgColorClass = selectedTable === index ? 'border-cyan-600' : 'border-gray-400';
+
+        return (
+            <div
+                key={index}
+                className={`flex items-center justify-center cursor-pointer border-2 ${shapeClass} ${bgColorClass}`}
+                onClick={() => isTable && handleTableClick(index)}
+            >
+                {isTable ? `Mesa ${index - 9}` : label}
+            </div>
+        );
+    };
+
+    const tablesLayout = [
+        { type: 'special' }, { type: 'special' }, { type: 'label', label: 'Mesa Central' }, { type: 'special' }, { type: 'special' },
+        { type: 'empty' }, { type: 'special' }, { type: 'empty' }, { type: 'special' }, { type: 'empty' },
+        { type: 'table' }, { type: 'table' }, { type: 'empty' }, { type: 'table' }, { type: 'table' },
+        { type: 'table' }, { type: 'table' }, { type: 'empty' }, { type: 'table' }, { type: 'table' },
+        { type: 'table' }, { type: 'table' }, { type: 'empty' }, { type: 'table' }, { type: 'table' },
+        { type: 'table' }, { type: 'table' }, { type: 'empty' }, { type: 'table' }, { type: 'table' },
+        { type: 'empty' }, { type: 'table' }, { type: 'table' }, { type: 'table' }, { type: 'table' },
+        { type: 'label', label: 'entrada', shape: 'rectangle' }, { type: 'empty' }, { type: 'label', label: 'SSHH', shape: 'rectangle' },
+        { type: 'label', label: 'Orquesta', shape: 'rectangle' }
+    ];
 
     return (
         <div className="p-4">
             {showConfirmation ? (
                 <div className="text-center bg-pink-200">
                     <div className="flex justify-center">
-                    <img src={Icono} alt="Icono" className="w-24 h-24 mb-4" />
+                        <img src={Icono} alt="Icono" className="w-24 h-24 mb-4" />
                     </div>
                     <h1 className="text-2xl font-bold mb-4">¡Confirmación de Asistencia!</h1>
                     <p className="text-lg mb-4">Tu selección de mesa y sillas ha sido registrada con éxito.</p>
@@ -52,28 +77,24 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats }) => {
             ) : (
                 <>
                     <h1 className="text-4xl font-bold mb-4 text-center">Selecciona tu Mesa y Asientos</h1>
-                    <div className="flex flex-wrap justify-center gap-4 mb-8">
-                        {[...Array(30)].map((_, index) => (
-                            <div
-                                key={index}
-                                className={`w-24 h-24 flex items-center justify-center rounded-full border-2 cursor-pointer ${selectedTable === index ? 'border-cyan-600' : 'border-gray-400'}`}
-                                onClick={() => handleTableClick(index)}
-                            >
-                                Mesa {index + 1}
+                    <div className="grid grid-cols-5 gap-4 mb-8">
+                        {tablesLayout.map((table, index) => (
+                            <div key={index} className="flex items-center justify-center">
+                                {table.type !== 'empty' ? renderTable(index, table.type, table.label) : <div className="w-24 h-24"></div>}
                             </div>
                         ))}
                     </div>
-                    {selectedTable !== null && (
+                    {selectedTable !== null && tablesLayout[selectedTable].type === 'table' && (
                         <>
                             <h2 className="text-2xl font-semibold mb-4 text-center">Mesa {selectedTable + 1} - Asientos</h2>
                             <div className="flex flex-wrap justify-center gap-2 mb-8">
                                 {[...Array(8)].map((_, seatIndex) => (
                                     <div
                                         key={seatIndex}
-                                        className={`w-10 h-10 flex items-center justify-center rounded-full border-2 cursor-pointer ${selectedSeats[selectedTable * 8]?.[seatIndex] ? 'bg-cyan-600' : 'bg-gray-200'}`}
+                                        className={`w-10 h-10 flex items-center justify-center rounded-full border-2 cursor-pointer ${selectedSeats[selectedTable * 8]?.[seatIndex] ? 'bg-cyan-600 text-white' : 'bg-gray-200'}`}
                                         onClick={() => handleSeatClick(seatIndex)}
                                     >
-                                        {seatIndex + 1}
+                                        {selectedSeats[selectedTable * 8]?.[seatIndex] ? name : seatIndex + 1}
                                     </div>
                                 ))}
                             </div>

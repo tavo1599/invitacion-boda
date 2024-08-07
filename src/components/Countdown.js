@@ -30,6 +30,8 @@ const Countdown = ({ targetDate }) => {
     return () => clearInterval(timer);
   }, [calculateTimeLeft]);
 
+  const isTimeUp = Object.values(timeLeft).every((value) => value === 0);
+
   return (
     <div className="relative flex flex-col items-center justify-center p-8">
       <div className="relative flex items-center justify-center w-96 h-72 bg-white bg-opacity-90 rounded-full shadow-lg">
@@ -47,32 +49,34 @@ const Countdown = ({ targetDate }) => {
           />
         </div>
         <div className="relative z-10 flex flex-col items-center text-center">
-          <h2 className="text-4xl font-extrabold mb-4 text-gray-800" style={{ fontFamily: 'Great Vibes, cursive' }}>Faltan:</h2>
-          <div className="flex items-center space-x-1 text-black text-xl font-semibold">
-            {Object.keys(timeLeft).map((unit, index) => {
-              const unitLabels = {
-                days: 'Días',
-                hours: 'Horas',
-                minutes: 'Minutos',
-                seconds: 'Segundos',
-              };
-              return (
-                <div key={unit} className="flex flex-col items-center">
-                  <div className="w-16 h-16 flex items-center justify-center bg-white bg-opacity-50 rounded-full text-lg font-bold">
-                    {timeLeft[unit]}
-                  </div>
-                  <div className="mt-2 mb-7 text-gray-700 text-sm" style={{ fontFamily: 'Kalnia Glaze, cursive' }}>{unitLabels[unit]}</div>
-                  
-                </div>
-                
-              );
-              
-            })}
-            
-          </div>
-          <div className='py-1 flex justify-center'>
-                        <img src={Icono} alt="Icono" className="w-8 h-8 mb-4" />
+          {isTimeUp ? (
+            <h2 className="text-4xl font-extrabold mb-4 text-gray-800" style={{ fontFamily: 'Great Vibes, cursive' }}>¡Hoy es el gran día!</h2>
+          ) : (
+            <>
+              <h2 className="text-4xl font-extrabold mb-4 text-gray-800" style={{ fontFamily: 'Great Vibes, cursive' }}>Faltan:</h2>
+              <div className="flex items-center space-x-1 text-black text-xl font-semibold">
+                {Object.keys(timeLeft).map((unit, index) => {
+                  const unitLabels = {
+                    days: 'Días',
+                    hours: 'Horas',
+                    minutes: 'Minutos',
+                    seconds: 'Segundos',
+                  };
+                  return (
+                    <div key={unit} className="flex flex-col items-center">
+                      <div className="w-16 h-16 flex items-center justify-center bg-white bg-opacity-50 rounded-full text-lg font-bold">
+                        {timeLeft[unit]}
+                      </div>
+                      <div className="mt-2 mb-7 text-black text-sm" style={{ fontFamily: 'Playwrite AT, cursive' }}>{unitLabels[unit]}</div>
                     </div>
+                  );
+                })}
+              </div>
+              <div className='py-1 flex justify-center'>
+                <img src={Icono} alt="Icono" className="w-8 h-8 mb-4" />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
@@ -80,3 +84,4 @@ const Countdown = ({ targetDate }) => {
 };
 
 export default Countdown;
+  

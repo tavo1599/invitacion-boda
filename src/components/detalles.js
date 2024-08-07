@@ -5,7 +5,7 @@ import Icono3 from '../assets/icons/fiesta.png';
 
 const Detalles = () => {
  return (
-    <div className="px-4 py-28 bg-fuchsia-100 text-center text-black">
+    <div className="px-4 py-28 bg-fuchsia-200 text-center text-black">
             <h1 className="text-6xl font-serif font-semibold mb-20">Detalles de la boda</h1>
             <div className="flex flex-col md:flex-row justify-center gap-8">
                 <div className="flex-1">

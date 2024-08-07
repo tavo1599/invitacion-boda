@@ -9,9 +9,9 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-gradient-to-r from-pink-500 via-red-300 to-yellow-200 py-4">
+        <nav className="bg-zinc-900 py-4">
             <div className="flex items-center justify-between px-4">
-                <div className="text-3xl font-extrabold text-gray-800" style={{ fontFamily: 'Great Vibes, cursive' }}>
+                <div className="text-3xl font-extrabold text-custom-brown" style={{ fontFamily: 'Great Vibes, cursive' }}>
                     J + M
                 </div>
                 <button 
@@ -23,11 +23,11 @@ const Navbar = () => {
                     </svg>
                 </button>
                 <div className="hidden md:flex space-x-6">
-                    <a href="#bienvenidos" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">¡BIENVENIDOS!</a>
-                    <a href="#blog-de-boda" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">BLOG DE BODA</a>
-                    <Link to="#confirmacion" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">CONFIRMA TU ASISTENCIA</Link>
-                    <a href="#contactanos" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">CONTÁCTANOS</a>
-                    <a href="#libro-de-visitas" className="font-bold text-gray-800 hover:text-violet-200 mb-2 transition">LIBRO DE VISITAS</a>
+                    <a href="#bienvenidos" className="font-bold text-custom-brown hover:text-violet-200 mb-2 transition">¡BIENVENIDOS!</a>
+                    <a href="#blog-de-boda" className="font-bold text-custom-brown hover:text-violet-200 mb-2 transition">BLOG DE BODA</a>
+                    <Link to="#confirmacion" className="font-bold text-custom-brown hover:text-violet-200 mb-2 transition">CONFIRMA TU ASISTENCIA</Link>
+                    <a href="#contactanos" className="font-bold text-custom-brown hover:text-violet-200 mb-2 transition">CONTÁCTANOS</a>
+                    <a href="#libro-de-visitas" className="font-bold text-custom-brown hover:text-violet-200 mb-2 transition">LIBRO DE VISITAS</a>
                 </div>
             </div>
             <div className={`md:hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-screen' : 'max-h-0'} overflow-hidden`}>
