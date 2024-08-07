@@ -29,7 +29,8 @@ const Confirmacion = () => {
                 phone: phone,
                 email: email,
                 dish: dish,
-                response: 'asistire'
+                response: 'asistire',
+                number_of_people: numGuests
             };
 
             try {
@@ -40,7 +41,7 @@ const Confirmacion = () => {
                     text: "Seleciona tu mesa y la cantidad que ocuparas",
                     icon: "success"
                 });
-                // console.log('Guest creado:', response.data);
+                // // console.log('Guest creado:', response.data);
                 setShowMesa(true);
             } catch (error) {
                 if (error.response && error.response.status === 400) {
@@ -48,20 +49,55 @@ const Confirmacion = () => {
                         title: "Ocurrió un error!",
                         text: "Verifica los datos que estás enviando",
                         icon: "error"
-                      });
-                  } else {
-                    Swal.fire({
-                      title: "Ocurrió un error en el servidor!",
-                      text: "Reportalo a 918982123",
-                      icon: "error"
                     });
-                  }
+                } else {
+                    Swal.fire({
+                        title: "Ocurrió un error en el servidor!",
+                        text: "Reportalo a 918982123",
+                        icon: "error"
+                    });
+                }
                 //   console.error('Error al crear el guest:', error);
-                  setShowMesa(false);
+                setShowMesa(false);
             }
 
         } else {
-            console.log('Formulario enviado: No asiste');
+            const data = {
+                name: name,
+                lastname: lastName,
+                phone: phone,
+                response: 'no asistire'
+            };
+
+            try {
+                const response = await axios.post(`${API_URL}/guests`, data);
+                setGuestId(response.data.guest.id);
+                Swal.fire({
+                    title: "Lamentamos que no puedas acompañarnos " + response.data.guest.name,
+                    text: "Esperamos poder compartir contigo en otra ocasión y celebrar juntos en el futuro.",
+                    icon: "success"
+                }).then(() => {
+                    window.location.reload();
+                });
+                // console.log('Guest creado:', response.data);
+                setShowMesa(false);
+            } catch (error) {
+                if (error.response && error.response.status === 400) {
+                    Swal.fire({
+                        title: "Ocurrió un error!",
+                        text: "Verifica los datos que estás enviando",
+                        icon: "error"
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Ocurrió un error en el servidor!",
+                        text: "Reportalo a 918982123",
+                        icon: "error"
+                    });
+                }
+                //   console.error('Error al crear el guest:', error);
+                setShowMesa(false);
+            }
         }
 
 
@@ -131,6 +167,12 @@ const Confirmacion = () => {
                                     required
                                 />
                             </div>
+                            <button
+                                type="submit"
+                                className="px-6 py-3 bg-cyan-600 text-white font-bold rounded hover:bg-cyan-700"
+                            >
+                                Enviar
+                            </button>
                         </>
                     )}
 
@@ -169,10 +211,12 @@ const Confirmacion = () => {
                             <div className="mb-4">
                                 <label className="block text-lg font-medium mb-2">Número de teléfono</label>
                                 <input
-                                    type="number"
+                                    type="text"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-gray-300 rounded border-none appearance-none focus:outline-none focus:ring-0"
+                                    maxLength="9"
+                                     placeholder="Ingrese su número de celular"
                                     required
                                 />
                             </div>

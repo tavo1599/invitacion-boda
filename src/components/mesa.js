@@ -1,9 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import Icono from '../assets/icons/confirmar-asistencia.png';
+import axios from 'axios';
+import { API_URL } from './env';
+import Swal from 'sweetalert2';
 
-const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name }) => {
+const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => {
     const [selectedTableId, setSelectedTableId] = useState(null);
     const [showConfirmation, setShowConfirmation] = useState(false);
+
+    const handleSubmit = async (e) => {
+        console.log("aquitoy")
+        e.preventDefault();
+        const data = {
+            table_id: '1',
+            number_of_people:numGuests
+        };
+        try {
+            const response = await axios.put(`${API_URL}/guests/${guestId}`, data);
+            Swal.fire({
+                title: "Sillas seleccionadas exitosamente !",
+                text: "Seleciona tu mesa y la cantidad que ocuparas",
+                icon: "success"
+            });
+          
+        } catch (error) {
+            alert("ocurrio un error");
+        }
+    }
 
     const handleTableClick = (tableId) => {
         setSelectedTableId(tableId);
@@ -85,55 +108,57 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name }) => {
                 </div>
             ) : (
                 <>
-                    <h1 className="text-4xl font-bold mb-4 text-center">Selecciona tu Mesa y Asientos</h1>
-                    <div className="grid grid-cols-5 gap-4 mb-8">
-                        {tablesLayout.map((table, index) => (
-                            <div key={index} className="flex items-center justify-center">
-                                {table.type !== 'empty' ? renderTable(index, table.type, table.label, table.id) : <div className="w-24 h-24"></div>}
-                            </div>
-                        ))}
-                    </div>
-                    {selectedTableId !== null && tablesLayout.find(table => table.id === selectedTableId).type === 'table' && (
-                        <>
-                            <h2 className="text-2xl font-semibold mb-4 text-center">Mesa {selectedTableId} - Asientos</h2>
-                            <div className="flex flex-wrap justify-center gap-2 mb-8">
-                                {[...Array(8)].map((_, seatIndex) => (
-                                    <div
-                                        key={seatIndex}
-                                        className={`w-10 h-10 flex items-center justify-center rounded-full border-2 cursor-pointer ${selectedSeats[selectedTableId]?.[seatIndex] ? 'bg-cyan-600 text-white' : 'bg-gray-200'}`}
-                                        onClick={() => handleSeatClick(seatIndex)}
-                                    >
-                                        {selectedSeats[selectedTableId]?.[seatIndex] ? name : seatIndex + 1}
-                                    </div>
-                                ))}
-                            </div>
-                            <div className="mt-8">
-                                <h2 className="text-xl font-semibold mb-2 text-center">Estado de los Asientos</h2>
-                                <div className="flex justify-center">
-                                    <div className="w-full max-w-md">
-                                        <div className="flex justify-between mb-2">
-                                            <span>Ocupados: {getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false))}</span>
-                                            <span>Libres: {8 - getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false))}</span>
+                    <form onSubmit={handleSubmit}>
+                        <h1 className="text-4xl font-bold mb-4 text-center">Selecciona tu Mesa y Asientos</h1>
+                        <div className="grid grid-cols-5 gap-4 mb-8">
+                            {tablesLayout.map((table, index) => (
+                                <div key={index} className="flex items-center justify-center">
+                                    {table.type !== 'empty' ? renderTable(index, table.type, table.label, table.id) : <div className="w-24 h-24"></div>}
+                                </div>
+                            ))}
+                        </div>
+                        {selectedTableId !== null && tablesLayout.find(table => table.id === selectedTableId).type === 'table' && (
+                            <>
+                                <h2 className="text-2xl font-semibold mb-4 text-center">Mesa {selectedTableId} - Asientos</h2>
+                                <div className="flex flex-wrap justify-center gap-2 mb-8">
+                                    {[...Array(8)].map((_, seatIndex) => (
+                                        <div
+                                            key={seatIndex}
+                                            className={`w-10 h-10 flex items-center justify-center rounded-full border-2 cursor-pointer ${selectedSeats[selectedTableId]?.[seatIndex] ? 'bg-cyan-600 text-white' : 'bg-gray-200'}`}
+                                            onClick={() => handleSeatClick(seatIndex)}
+                                        >
+                                            {selectedSeats[selectedTableId]?.[seatIndex] ? name : seatIndex + 1}
                                         </div>
-                                        <div className="bg-gray-200 rounded-full h-4">
-                                            <div
-                                                className="bg-cyan-600 h-full rounded-full"
-                                                style={{ width: `${(getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false)) / 8) * 100}%` }}
-                                            ></div>
+                                    ))}
+                                </div>
+                                <div className="mt-8">
+                                    <h2 className="text-xl font-semibold mb-2 text-center">Estado de los Asientos</h2>
+                                    <div className="flex justify-center">
+                                        <div className="w-full max-w-md">
+                                            <div className="flex justify-between mb-2">
+                                                <span>Ocupados: {getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false))}</span>
+                                                <span>Libres: {8 - getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false))}</span>
+                                            </div>
+                                            <div className="bg-gray-200 rounded-full h-4">
+                                                <div
+                                                    className="bg-cyan-600 h-full rounded-full"
+                                                    style={{ width: `${(getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false)) / 8) * 100}%` }}
+                                                ></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="text-center mt-8">
-                                <button
-                                    onClick={handleRegister}
-                                    className="px-6 py-3 bg-cyan-600 text-white font-bold rounded hover:bg-cyan-700"
-                                >
-                                    Registrar
-                                </button>
-                            </div>
-                        </>
-                    )}
+                                <div className="text-center mt-8">
+                                    <button
+                                        type='submit'
+                                        className="px-6 py-3 bg-cyan-600 text-white font-bold rounded hover:bg-cyan-700"
+                                    >
+                                        Registrar
+                                    </button>
+                                </div>
+                            </>
+                        )}
+                    </form>
                 </>
             )}
         </div>
