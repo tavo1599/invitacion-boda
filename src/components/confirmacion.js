@@ -5,7 +5,6 @@ import Mesa from './mesa';
 const Confirmacion = () => {
     const [name, setName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [numGuests, setNumGuests] = useState(1);
     const [meal, setMeal] = useState('pollo');
