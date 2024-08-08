@@ -75,13 +75,13 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name }) => {
     return (
         <div className="p-4">
             {showConfirmation ? (
-                <div className="text-center bg-pink-200">
+                <div className="text-center bg-neutral-700 text-pink-200">
                     <div className="flex justify-center">
-                        <img src={Icono} alt="Icono" className="w-24 h-24 mb-4" />
+                        <img src={Icono} alt="Icono" className="w-24 h-24 mb-4 my-9" />
                     </div>
-                    <h1 className="text-2xl font-bold mb-4">¡Confirmación de Asistencia!</h1>
-                    <p className="text-lg mb-4">Tu selección de mesa y sillas ha sido registrada con éxito.</p>
-                    <p className="text-lg">¡Gracias por confirmar tu asistencia!</p>
+                    <h1 className="text-2xl font-bold mb-4 ">¡Confirmación de Asistencia!</h1>
+                    <p className="text-lg mb-4 ">Tu selección de mesa y sillas ha sido registrada con éxito.</p>
+                    <p className="text-lg py-8">¡Gracias por confirmar tu asistencia!</p>
                 </div>
             ) : (
                 <>
