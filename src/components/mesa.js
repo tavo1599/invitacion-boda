@@ -12,7 +12,6 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
     const { data } = useFetch("tables");
     const tables = data?.tables || [];
 
-    console.log(data)
     const handleSubmit = async (e) => {
         e.preventDefault();
         const data = {
@@ -32,25 +31,45 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
         }
     }
 
-    console.log(selectedTableId)
     const handleTableClick = (tableId) => {
-        setSelectedTableId(tableId);
-        // Rellenar automáticamente las sillas con el nombre del invitado
-        const tableSeats = Array(8).fill(false);
-        for (let i = 0; i < numGuests; i++) {
-            tableSeats[i] = true;
+        // Supongamos que tienes una estructura de datos para las mesas con la capacidad actual
+        const tableSeats = selectedSeats[tableId] || Array(8).fill(false);
+        const ocupados = getSelectedSeatsCount(tableSeats); // Función para contar asientos ocupados
+        const suposicion = Number(ocupados) + Number(numGuests);
+
+        if (suposicion >= 8) {
+            console.log("pudrase")
+
         }
+
+        setSelectedTableId(tableId);
+
+        // Rellenar automáticamente las sillas con el nombre del invitado si no están todas ocupadas
+        const newTableSeats = Array(8).fill(false);
+        for (let i = 0; i < numGuests; i++) {
+            newTableSeats[i] = true;
+        }
+
         setSelectedSeats(prev => ({
             ...prev,
-            [tableId]: tableSeats
+            [tableId]: newTableSeats
         }));
-    };
+    }
 
     const handleSeatClick = (seatIndex) => {
         if (selectedTableId !== null) {
             const tableSeats = selectedSeats[selectedTableId] || Array(8).fill(false);
+            console.log(tableSeats);
+            const ocupados = getSelectedSeatsCount(tableSeats);
+            const selectedSeatsCount = tableSeats.filter(seat => seat).length;
 
-            if (getSelectedSeatsCount(tableSeats) < numGuests || tableSeats[seatIndex]) {
+
+            if ((ocupados + selectedSeatsCount) >= 8 && !tableSeats[seatIndex]) {
+                alert("Mesa insuficiente. No hay suficientes asientos disponibles.");
+                return;
+            }
+
+            if ((ocupados + selectedSeatsCount) < numGuests || tableSeats[seatIndex]) {
                 const newSeats = [...tableSeats];
                 newSeats[seatIndex] = !newSeats[seatIndex]; // Alterna la selección del asiento
 
@@ -74,6 +93,27 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
 
     const renderTable = (index, type, label, tableId) => {
         const isTable = type === 'table';
+
+        // Suponiendo que tienes acceso a la información de las mesas, como capacity_actual
+        const table = tables.find(t => t.id === Number(tableId)); // Encuentra la mesa por ID
+        const capacityActual = table?.capacity_actual || 0;
+        // Condiciones para no mostrar la mesa
+        if (capacityActual >= 8) {
+            return (<div
+                key={index}
+                className="flex items-center justify-center w-24 h-24 rounded-full  cursor-not-allowed border-2 border-cyan-400 bg-white text-red-600"
+            >
+                Mesa ocupada
+            </div>) // No renderiza la mesa si alguna condición se cumple
+        } if (capacityActual + numGuests > 8) {
+            return (<div
+                key={index}
+                className="flex items-center justify-center w-24 h-24 rounded-full  cursor-not-allowed border-2 border-cyan-400 bg-gray-600 text-white font-thin"
+            >
+                Mesa insuficiente
+            </div>)
+        }
+
         const shapeClass = label ? 'w-48 h-24' : 'w-24 h-24 rounded-full';
         const bgColorClass = selectedTableId === tableId ? 'border-cyan-600' : 'border-gray-400';
 
@@ -134,6 +174,7 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
                                 <h2 className="text-2xl font-semibold mb-4 text-center">Mesa {selectedTableId} - Asientos</h2>
                                 <div className="flex flex-wrap justify-center gap-2 mb-8">
                                     {[...Array(8)].map((_, seatIndex) => (
+
                                         <div
                                             key={seatIndex}
                                             className={`w-10 h-10 flex items-center justify-center rounded-full border-2 cursor-pointer ${selectedSeats[selectedTableId]?.[seatIndex] ? 'bg-cyan-600 text-white' : 'bg-gray-200'}`}
