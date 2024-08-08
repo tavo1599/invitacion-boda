@@ -3,17 +3,21 @@ import Icono from '../assets/icons/confirmar-asistencia.png';
 import axios from 'axios';
 import { API_URL } from './env';
 import Swal from 'sweetalert2';
+import useFetch from './useFetch';
+
 
 const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => {
     const [selectedTableId, setSelectedTableId] = useState(null);
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const { data } = useFetch("tables");
+    const tables = data?.tables || [];
 
+    console.log(data)
     const handleSubmit = async (e) => {
-        console.log("aquitoy")
         e.preventDefault();
         const data = {
-            table_id: '1',
-            number_of_people:numGuests
+            table_id: selectedTableId,
+            number_of_people: numGuests
         };
         try {
             const response = await axios.put(`${API_URL}/guests/${guestId}`, data);
@@ -22,12 +26,13 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
                 text: "Seleciona tu mesa y la cantidad que ocuparas",
                 icon: "success"
             });
-          
+
         } catch (error) {
             alert("ocurrio un error");
         }
     }
 
+    console.log(selectedTableId)
     const handleTableClick = (tableId) => {
         setSelectedTableId(tableId);
         // Rellenar automáticamente las sillas con el nombre del invitado
@@ -58,7 +63,8 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
     };
 
     const getSelectedSeatsCount = (seats) => {
-        return seats.filter(seat => seat).length;
+        const ocupados = selectedTableId ? tables.find(table => table.id === Number(selectedTableId))?.capacity_actual || 0 : 0;
+        return ocupados;
     };
 
     const handleRegister = () => {
@@ -85,12 +91,18 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
     const tablesLayout = [
         { type: 'special', id: 'special-1' }, { type: 'special', id: 'special-2' }, { type: 'label', label: 'Mesa Central', id: 'central' }, { type: 'special', id: 'special-3' }, { type: 'special', id: 'special-4' },
         { type: 'empty' }, { type: 'special', id: 'special-5' }, { type: 'empty' }, { type: 'special', id: 'special-6' }, { type: 'empty' },
-        { type: 'table', id: '1' }, { type: 'table', id: '2' }, { type: 'empty' }, { type: 'table', id: '11' }, { type: 'table', id: '12' },
-        { type: 'table', id: '3' }, { type: 'table', id: '4' }, { type: 'empty' }, { type: 'table', id: '13' }, { type: 'table', id: '14' },
-        { type: 'table', id: '5' }, { type: 'table', id: '6' }, { type: 'empty' }, { type: 'table', id: '15' }, { type: 'table', id: '16' },
-        { type: 'table', id: '7' }, { type: 'table', id: '8' }, { type: 'empty' }, { type: 'table', id: '17' }, { type: 'table', id: '18' },
-        { type: 'table', id: '9' }, { type: 'table', id: '10' }, { type: 'empty' }, { type: 'table', id: '19' }, { type: 'table', id: '20' },
-        { type: 'empty' }, { type: 'table', id: '21' }, { type: 'table', id: '22' }, { type: 'table', id: '23' }, { type: 'table', id: '24' },
+        ...tables.slice(0, 2).map(table => ({ type: 'table', id: table.id.toString() })), { type: 'empty' },
+        ...tables.slice(10, 12).map(table => ({ type: 'table', id: table.id.toString() })),
+        ...tables.slice(2, 4).map(table => ({ type: 'table', id: table.id.toString() })), { type: 'empty' },
+        ...tables.slice(12, 14).map(table => ({ type: 'table', id: table.id.toString() })),
+        ...tables.slice(4, 6).map(table => ({ type: 'table', id: table.id.toString() })), { type: 'empty' },
+        ...tables.slice(14, 16).map(table => ({ type: 'table', id: table.id.toString() })),
+        ...tables.slice(6, 8).map(table => ({ type: 'table', id: table.id.toString() })), { type: 'empty' },
+        ...tables.slice(16, 18).map(table => ({ type: 'table', id: table.id.toString() })),
+        ...tables.slice(8, 10).map(table => ({ type: 'table', id: table.id.toString() })), { type: 'empty' },
+        ...tables.slice(18, 20).map(table => ({ type: 'table', id: table.id.toString() })),
+        { type: 'empty' }, ...tables.slice(20, 22).map(table => ({ type: 'table', id: table.id.toString() })),
+        { type: 'table', id: tables[22]?.id.toString() }, { type: 'table', id: tables[23]?.id.toString() },
         { type: 'label', label: 'entrada', shape: 'rectangle', id: 'entrance' }, { type: 'empty' }, { type: 'label', label: 'SSHH', shape: 'rectangle', id: 'sshh' },
         { type: 'label', label: 'Orquesta', shape: 'rectangle', id: 'orchestra' }
     ];

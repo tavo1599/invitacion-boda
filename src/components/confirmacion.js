@@ -214,7 +214,8 @@ const Confirmacion = () => {
                                     type="text"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded"
+                                    className="w-full p-2 border border-gray-300 rounded bg-neutral-700"
+                                    maxLength={9}
                                     required
                                 />
                             </div>
