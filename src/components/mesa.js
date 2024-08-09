@@ -54,47 +54,71 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
             [tableId]: newTableSeats
         }));
     };
-
     const handleSeatClick = (seatIndex) => {
         if (selectedTableId !== null) {
             const tableSeats = selectedSeats[selectedTableId] || Array(8).fill(false);
-            const ocupados = getSelectedSeatsCount(tableSeats); // Asientos ocupados en la mesa
+            const ocupados = getOccupiedSeatsCount(); // Asientos ocupados en la mesa
             const selectedSeatsCount = tableSeats.filter(seat => seat).length; // Asientos seleccionados actualmente
-    
-            console.log(tableSeats);
-            console.log(ocupados);
-            console.log(selectedSeatsCount);
-    
+
+            console.log(`Asiento: ${seatIndex}`);
+            console.log(`Asientos ocupados: ${ocupados}`);
+            console.log(`Asientos seleccionados: ${selectedSeatsCount}`);
+            console.log(`Estado de los asientos: ${JSON.stringify(tableSeats)}`);
+
             // Verifica si el asiento está ocupado
-            if (seatIndex < ocupados) {
+            if (tableSeats[seatIndex] && ocupados >= 8) {
                 alert("Este asiento está ocupado. No se puede seleccionar.");
                 return;
             }
-    
+
             // Verifica si hay suficientes asientos disponibles
-            if ((selectedSeatsCount >= numGuests && !tableSeats[seatIndex]) ||
-                (ocupados + selectedSeatsCount >= 8 && !tableSeats[seatIndex])) {
+            if (selectedSeatsCount >= numGuests && !tableSeats[seatIndex]) {
+                alert("No puedes seleccionar más asientos.");
+                return;
+            }
+
+            if (ocupados + selectedSeatsCount >= 8 && !tableSeats[seatIndex]) {
                 alert("Mesa insuficiente. No hay suficientes asientos disponibles.");
                 return;
             }
-    
+
             // Alterna el estado del asiento seleccionado
             const newSeats = [...tableSeats];
             newSeats[seatIndex] = !newSeats[seatIndex]; // Alterna la selección del asiento
-    
+
             setSelectedSeats(prev => ({
                 ...prev,
                 [selectedTableId]: newSeats
             }));
         }
     };
-    
+
+
 
     const getSelectedSeatsCount = (seats) => {
         const table = tables.find(table => table.id === Number(selectedTableId));
         if (!table) return 0;
-        return table.capacity_actual - seats.filter(seat => seat).length;
+
+        // Asegúrate de que el número de asientos ocupados no exceda la capacidad de la mesa
+        const totalSeats = table.capacity_actual;
+        const occupiedSeats = seats.filter(seat => seat).length;
+
+        // La cantidad de asientos restantes no debe ser negativa
+        const availableSeats = Math.max(table.table_capacity - totalSeats, 0);
+        console.log(totalSeats)
+        return availableSeats;
     };
+
+    const getOccupiedSeatsCount = () => {
+        const table = tables.find(table => table.id === Number(selectedTableId));
+        if (!table) return 0;
+
+        const seats = selectedSeats[selectedTableId] || Array(table.table_capacity).fill(false);
+        console.log(seats)
+        return seats.filter(seat => seat).length;
+    };
+
+
 
     const handleRegister = () => {
         setShowConfirmation(true);
@@ -187,8 +211,8 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
                                         <div
                                             key={seatIndex}
                                             className={`w-10 h-10 flex items-center justify-center rounded-full border-2 cursor-pointer 
-                                            ${selectedSeats[selectedTableId]?.[seatIndex] ? 'bg-cyan-600 text-white' :
-                                                    (seatIndex < getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false)) ? 'bg-cyan-600 text-white' : 'bg-gray-200 text-black border-cyan-500')}`}
+                ${selectedSeats[selectedTableId]?.[seatIndex] ? 'bg-cyan-600 text-white' :
+                                                    (seatIndex < getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false)) ? 'bg-red-600 text-white' : 'bg-gray-200')}`}
                                             onClick={() => handleSeatClick(seatIndex)}
                                         >
                                             {selectedSeats[selectedTableId]?.[seatIndex] ? name : seatIndex + 1}
