@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Icono from '../assets/icons/confirmar-asistencia.png';
 import axios from 'axios';
 import { API_URL } from './env';
 import Swal from 'sweetalert2';
 import useFetch from './useFetch';
-
 
 const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => {
     const [selectedTableId, setSelectedTableId] = useState(null);
@@ -29,75 +28,71 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
         } catch (error) {
             alert("ocurrio un error");
         }
-    }
+    };
 
     const handleTableClick = (tableId) => {
-        // Supongamos que tienes una estructura de datos para las mesas con la capacidad actual
-        const tableSeats = selectedSeats[tableId] || Array(8).fill(false);
-        console.log(tableSeats)
+        const tableSeats = selectedSeats[selectedTableId] || Array(8).fill(false);
 
         const ocupados = getSelectedSeatsCount(tableSeats); // Función para contar asientos ocupados
         const suposicion = Number(ocupados) + Number(numGuests);
-        console.log(ocupados)
-        if (Number(suposicion) > 8) {
-            console.log("pudrase")
-
-        }
 
         setSelectedTableId(tableId);
 
         const newTableSeats = [...tableSeats];
-console.log(tableSeats)
-        if (Number(ocupados) > 1) {
+
+        if (ocupados > 1) {
             // Aquí simplemente respetamos los asientos ya ocupados
             setSelectedSeats(prev => ({
                 ...prev,
-                [tableId]: newTableSeats
+                [tableId]: tableSeats
             }));
             return;
-        }
-
-        for (let i = 0; i < newTableSeats.length; i++) {
-            if (newTableSeats[i]) { // Si el asiento está ocupado
-                // Puedes aplicar aquí lógica para pintar los asientos ocupados
-                console.log(`Asiento ${i} está ocupado`);
-            }
         }
 
         setSelectedSeats(prev => ({
             ...prev,
             [tableId]: newTableSeats
         }));
-    }
+    };
 
     const handleSeatClick = (seatIndex) => {
         if (selectedTableId !== null) {
             const tableSeats = selectedSeats[selectedTableId] || Array(8).fill(false);
-            console.log(tableSeats);
             const ocupados = getSelectedSeatsCount(tableSeats);
             const selectedSeatsCount = tableSeats.filter(seat => seat).length;
-
-
-            if ((ocupados + selectedSeatsCount) >= 8 && !tableSeats[seatIndex]) {
+    
+            console.log(`Asiento: ${seatIndex}`);
+            console.log(`Asientos ocupados: ${ocupados}`);
+            console.log(`Asientos seleccionados: ${selectedSeatsCount}`);
+            console.log(`Estado de los asientos: ${JSON.stringify(tableSeats)}`);
+    
+            if (seatIndex < ocupados) {
+                alert("Este asiento está ocupado. No se puede seleccionar.");
+                return;
+            }
+    
+            if ((selectedSeatsCount >= numGuests && !tableSeats[seatIndex]) ||
+                (ocupados + selectedSeatsCount >= 8 && !tableSeats[seatIndex])) {
                 alert("Mesa insuficiente. No hay suficientes asientos disponibles.");
                 return;
             }
-
-            if ((ocupados + selectedSeatsCount) < numGuests || tableSeats[seatIndex]) {
-                const newSeats = [...tableSeats];
-                newSeats[seatIndex] = !newSeats[seatIndex]; // Alterna la selección del asiento
-
-                setSelectedSeats(prev => ({
-                    ...prev,
-                    [selectedTableId]: newSeats
-                }));
-            }
+    
+            const newSeats = [...tableSeats];
+            newSeats[seatIndex] = !newSeats[seatIndex];
+    
+            setSelectedSeats(prev => ({
+                ...prev,
+                [selectedTableId]: newSeats
+            }));
         }
     };
+    
+    
 
     const getSelectedSeatsCount = (seats) => {
-        const ocupados = selectedTableId ? tables.find(table => table.id === Number(selectedTableId))?.capacity_actual || 0 : 0;
-        return ocupados;
+        const table = tables.find(table => table.id === Number(selectedTableId));
+        if (!table) return 0;
+        return table.capacity_actual - seats.filter(seat => seat).length 
     };
 
     const handleRegister = () => {
@@ -109,28 +104,27 @@ console.log(tableSeats)
         const isTable = type === 'table';
         const shapeClass = label ? 'w-48 h-24' : 'w-24 h-24 rounded-full';
         const bgColorClass = selectedTableId === tableId ? 'border-cyan-400' : 'border-gray-400';
-        // Suponiendo que tienes acceso a la información de las mesas, como capacity_actual
         const table = tables.find(t => t.id === Number(tableId)); // Encuentra la mesa por ID
         const capacityActual = table?.capacity_actual || 0;
-        // Condiciones para no mostrar la mesa
         const opal = Number(capacityActual) + Number(numGuests);
+
         if (Number(capacityActual) > 8) {
             return (<div
                 key={index}
-                className="flex items-center justify-center w-24 h-24 rounded-full  cursor-not-allowed border-2 border-cyan-400 bg-white text-red-600"
+                className="flex items-center justify-center w-24 h-24 rounded-full cursor-not-allowed border-2 border-cyan-400 bg-white text-red-600"
             >
-                {isTable ? `Mesa` : label}  ocupada
-            </div>) // No renderiza la mesa si alguna condición se cumple
-        } if (opal > 8) {
-            return (<div
-                key={index}
-                className="flex items-center justify-center w-24 h-24 rounded-full  cursor-not-allowed border-2 border-cyan-900 bg-gray-600 text-white font-thin"
-            >
-                Mesa insuficiente
-            </div>)
+                {isTable ? `Mesa` : label} ocupada
+            </div>);
         }
 
-
+        if (opal > 8) {
+            return (<div
+                key={index}
+                className="flex items-center justify-center w-24 h-24 rounded-full cursor-not-allowed border-2 border-cyan-900 bg-gray-600 text-white font-thin"
+            >
+                Mesa insuficiente
+            </div>);
+        }
 
         return (
             <div
@@ -184,21 +178,23 @@ console.log(tableSeats)
                                 </div>
                             ))}
                         </div>
-                        {selectedTableId !== null && tablesLayout.find(table => table.id === selectedTableId).type === 'table' && (
+                        {selectedTableId !== null && tablesLayout.find(table => table.id === selectedTableId)?.type === 'table' && (
                             <>
                                 <h2 className="text-2xl font-semibold mb-4 text-center">Mesa {selectedTableId} - Asientos</h2>
                                 <div className="flex flex-wrap justify-center gap-2 mb-8">
                                     {[...Array(8)].map((_, seatIndex) => (
-
                                         <div
                                             key={seatIndex}
-                                            className={`w-10 h-10 flex items-center justify-center rounded-full border-2 cursor-pointer ${selectedSeats[selectedTableId]?.[seatIndex] ? 'bg-cyan-600 text-white' : 'bg-gray-200'}`}
+                                            className={`w-10 h-10 flex items-center justify-center rounded-full border-2 cursor-pointer 
+                                            ${selectedSeats[selectedTableId]?.[seatIndex] ? 'bg-cyan-600 text-white' :
+                                                    (seatIndex < getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false)) ? 'bg-cyan-600 text-white' : 'bg-gray-200 text-black border-cyan-500')}`}
                                             onClick={() => handleSeatClick(seatIndex)}
                                         >
                                             {selectedSeats[selectedTableId]?.[seatIndex] ? name : seatIndex + 1}
                                         </div>
                                     ))}
                                 </div>
+
                                 <div className="mt-8">
                                     <h2 className="text-xl font-semibold mb-2 text-center">Estado de los Asientos</h2>
                                     <div className="flex justify-center">
