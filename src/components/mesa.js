@@ -58,27 +58,29 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
     const handleSeatClick = (seatIndex) => {
         if (selectedTableId !== null) {
             const tableSeats = selectedSeats[selectedTableId] || Array(8).fill(false);
-            const ocupados = getSelectedSeatsCount(tableSeats);
-            const selectedSeatsCount = tableSeats.filter(seat => seat).length;
+            const ocupados = getSelectedSeatsCount(tableSeats); // Asientos ocupados en la mesa
+            const selectedSeatsCount = tableSeats.filter(seat => seat).length; // Asientos seleccionados actualmente
     
-            console.log(`Asiento: ${seatIndex}`);
-            console.log(`Asientos ocupados: ${ocupados}`);
-            console.log(`Asientos seleccionados: ${selectedSeatsCount}`);
-            console.log(`Estado de los asientos: ${JSON.stringify(tableSeats)}`);
+            console.log(tableSeats);
+            console.log(ocupados);
+            console.log(selectedSeatsCount);
     
+            // Verifica si el asiento está ocupado
             if (seatIndex < ocupados) {
                 alert("Este asiento está ocupado. No se puede seleccionar.");
                 return;
             }
     
+            // Verifica si hay suficientes asientos disponibles
             if ((selectedSeatsCount >= numGuests && !tableSeats[seatIndex]) ||
                 (ocupados + selectedSeatsCount >= 8 && !tableSeats[seatIndex])) {
                 alert("Mesa insuficiente. No hay suficientes asientos disponibles.");
                 return;
             }
     
+            // Alterna el estado del asiento seleccionado
             const newSeats = [...tableSeats];
-            newSeats[seatIndex] = !newSeats[seatIndex];
+            newSeats[seatIndex] = !newSeats[seatIndex]; // Alterna la selección del asiento
     
             setSelectedSeats(prev => ({
                 ...prev,
@@ -87,12 +89,11 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
         }
     };
     
-    
 
     const getSelectedSeatsCount = (seats) => {
         const table = tables.find(table => table.id === Number(selectedTableId));
         if (!table) return 0;
-        return table.capacity_actual - seats.filter(seat => seat).length 
+        return table.capacity_actual - seats.filter(seat => seat).length;
     };
 
     const handleRegister = () => {
