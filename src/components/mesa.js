@@ -34,20 +34,34 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
     const handleTableClick = (tableId) => {
         // Supongamos que tienes una estructura de datos para las mesas con la capacidad actual
         const tableSeats = selectedSeats[tableId] || Array(8).fill(false);
+        console.log(tableSeats)
+
         const ocupados = getSelectedSeatsCount(tableSeats); // Función para contar asientos ocupados
         const suposicion = Number(ocupados) + Number(numGuests);
-
-        if (suposicion >= 8) {
+        console.log(ocupados)
+        if (Number(suposicion) > 8) {
             console.log("pudrase")
 
         }
 
         setSelectedTableId(tableId);
 
-        // Rellenar automáticamente las sillas con el nombre del invitado si no están todas ocupadas
-        const newTableSeats = Array(8).fill(false);
-        for (let i = 0; i < numGuests; i++) {
-            newTableSeats[i] = true;
+        const newTableSeats = [...tableSeats];
+console.log(tableSeats)
+        if (Number(ocupados) > 1) {
+            // Aquí simplemente respetamos los asientos ya ocupados
+            setSelectedSeats(prev => ({
+                ...prev,
+                [tableId]: newTableSeats
+            }));
+            return;
+        }
+
+        for (let i = 0; i < newTableSeats.length; i++) {
+            if (newTableSeats[i]) { // Si el asiento está ocupado
+                // Puedes aplicar aquí lógica para pintar los asientos ocupados
+                console.log(`Asiento ${i} está ocupado`);
+            }
         }
 
         setSelectedSeats(prev => ({
@@ -93,29 +107,30 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
 
     const renderTable = (index, type, label, tableId) => {
         const isTable = type === 'table';
-
+        const shapeClass = label ? 'w-48 h-24' : 'w-24 h-24 rounded-full';
+        const bgColorClass = selectedTableId === tableId ? 'border-cyan-400' : 'border-gray-400';
         // Suponiendo que tienes acceso a la información de las mesas, como capacity_actual
         const table = tables.find(t => t.id === Number(tableId)); // Encuentra la mesa por ID
         const capacityActual = table?.capacity_actual || 0;
         // Condiciones para no mostrar la mesa
-        if (capacityActual >= 8) {
+        const opal = Number(capacityActual) + Number(numGuests);
+        if (Number(capacityActual) > 8) {
             return (<div
                 key={index}
                 className="flex items-center justify-center w-24 h-24 rounded-full  cursor-not-allowed border-2 border-cyan-400 bg-white text-red-600"
             >
-                Mesa ocupada
+                {isTable ? `Mesa` : label}  ocupada
             </div>) // No renderiza la mesa si alguna condición se cumple
-        } if (capacityActual + numGuests > 8) {
+        } if (opal > 8) {
             return (<div
                 key={index}
-                className="flex items-center justify-center w-24 h-24 rounded-full  cursor-not-allowed border-2 border-cyan-400 bg-gray-600 text-white font-thin"
+                className="flex items-center justify-center w-24 h-24 rounded-full  cursor-not-allowed border-2 border-cyan-900 bg-gray-600 text-white font-thin"
             >
                 Mesa insuficiente
             </div>)
         }
 
-        const shapeClass = label ? 'w-48 h-24' : 'w-24 h-24 rounded-full';
-        const bgColorClass = selectedTableId === tableId ? 'border-cyan-600' : 'border-gray-400';
+
 
         return (
             <div
