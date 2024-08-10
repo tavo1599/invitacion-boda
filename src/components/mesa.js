@@ -113,7 +113,7 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
         const table = tables.find(table => table.id === Number(selectedTableId));
         if (!table) return 0;
 
-        const seats = selectedSeats[selectedTableId] || Array(table.table_capacity).fill(false);
+        const seats = selectedSeats[selectedTableId] || Array(table.capacity_actual).fill(false);
         console.log(seats)
         return seats.filter(seat => seat).length;
     };
@@ -212,7 +212,7 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
                                             key={seatIndex}
                                             className={`w-10 h-10 flex items-center justify-center rounded-full border-2 cursor-pointer 
                 ${selectedSeats[selectedTableId]?.[seatIndex] ? 'bg-cyan-600 text-white' :
-                                                    (seatIndex < getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false)) ? 'bg-red-600 text-white' : 'bg-gray-200')}`}
+                                                    (seatIndex < getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false)) ? 'bg-white text-black border-cyan-400' : '')}`}
                                             onClick={() => handleSeatClick(seatIndex)}
                                         >
                                             {selectedSeats[selectedTableId]?.[seatIndex] ? name : seatIndex + 1}
@@ -225,8 +225,8 @@ const Mesa = ({ numGuests, selectedSeats, setSelectedSeats, name, guestId }) => 
                                     <div className="flex justify-center">
                                         <div className="w-full max-w-md">
                                             <div className="flex justify-between mb-2">
-                                                <span>Ocupados: {getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false))}</span>
-                                                <span>Libres: {8 - getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false))}</span>
+                                                <span>Libres: {getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false))}</span>
+                                                <span>Ocupados: {8 - getSelectedSeatsCount(selectedSeats[selectedTableId] || Array(8).fill(false))}</span>
                                             </div>
                                             <div className="bg-gray-200 rounded-full h-4">
                                                 <div
