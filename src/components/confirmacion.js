@@ -199,16 +199,6 @@ const Confirmacion = () => {
                                 />
                             </div>
                             <div className="mb-4">
-                                <label className="block text-lg font-medium mb-2">Correo electrónico</label>
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full p-2 border border-gray-300 rounded bg-neutral-700"
-                                    required
-                                />
-                            </div>
-                            <div className="mb-4">
                                 <label className="block text-lg font-medium mb-2">Número de teléfono</label>
                                 <input
                                     type="text"
