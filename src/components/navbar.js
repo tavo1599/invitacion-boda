@@ -1,3 +1,4 @@
+// src/components/Navbar.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -13,7 +14,7 @@ const Navbar = () => {
         if (section) {
             section.scrollIntoView({
                 behavior: 'smooth',
-                block: 'center', // Centra la sección verticalmente
+                block: 'start',
                 inline: 'nearest'
             });
         }
@@ -36,14 +37,14 @@ const Navbar = () => {
                 <div className="hidden md:flex space-x-6">
                     <a href="#asistencia" onClick={(e) => { e.preventDefault(); scrollToSection('asistencia'); }} className="font-bold text-white hover:text-[#FFD700] transition">CONFIRMA TU ASISTENCIA</a>
                     <a href="#contactanos" onClick={(e) => { e.preventDefault(); scrollToSection('contactanos'); }} className="font-bold text-white hover:text-[#FFD700] transition">CONTÁCTANOS</a>
-                    <a href="#libro-de-visitas" onClick={(e) => { e.preventDefault(); scrollToSection('libro-de-visitas'); }} className="font-bold text-white hover:text-[#FFD700] transition">LIBRO DE VISITAS</a>
+                    <a href="#recuerdo" onClick={(e) => { e.preventDefault(); scrollToSection('recuerdo'); }} className="font-bold text-white hover:text-[#FFD700] transition">LIBRO DE RECUERDOS</a>
                 </div>
             </div>
             <div className={`md:hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-screen' : 'max-h-0'} overflow-hidden`}>
                 <ul className="flex flex-col items-center space-y-4 mt-4 text-center">
                     <li><a href="#asistencia" onClick={(e) => { e.preventDefault(); scrollToSection('asistencia'); }} className="font-bold text-white hover:text-[#FFD700] transition">CONFIRMA TU ASISTENCIA</a></li>
                     <li><a href="#contactanos" onClick={(e) => { e.preventDefault(); scrollToSection('contactanos'); }} className="font-bold text-white hover:text-[#FFD700] transition">CONTÁCTANOS</a></li>
-                    <li><a href="#libro-de-visitas" onClick={(e) => { e.preventDefault(); scrollToSection('libro-de-visitas'); }} className="font-bold text-white hover:text-[#FFD700] transition">LIBRO DE VISITAS</a></li>
+                    <li><a href="#recuerdo" onClick={(e) => { e.preventDefault(); scrollToSection('recuerdo'); }} className="font-bold text-white hover:text-[#FFD700] transition">LIBRO DE RECUERDOS</a></li>
                 </ul>
             </div>
         </nav>
