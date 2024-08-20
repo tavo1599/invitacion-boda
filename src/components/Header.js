@@ -4,7 +4,7 @@ import Countdown from './Countdown'; // Asegúrate de importar el componente Cou
 import Icono from '../assets/icons/corazon.png';
 
 const Header = () => {
-    const targetDate = "2024-08-15T00:00:00";
+    const targetDate = "2024-10-12T00:00:00";
 
     const scrollToAsistencia = () => {
         const asistenciaElement = document.getElementById('asistencia');
@@ -38,7 +38,7 @@ const Header = () => {
                         <p className="text-lg md:text-xl font-bold text-custom-brown">{targetDate.split('T')[0]}</p>
                     </div>
                     <h1 className="text-4xl md:text-5xl lg:text-6xl text-custom-brown mb-4 p-4 inline-block tracking-widest font-elegant">
-                        Jose & Mileydi
+                        Wilfredo & Fany
                     </h1>
 
                     {/* Botón "Asistir" */}

@@ -193,7 +193,7 @@ const Recuerdo = () => {
                                 onClick={handleViewAllClick}
                                 className="px-6 py-3 bg-cyan-600 text-white font-bold rounded hover:bg-green-700"
                             >
-                                Ver todo el libro de recuerdos
+                                Album
                             </button>
                         </div>
                     </form>

@@ -24,7 +24,7 @@ const Navbar = () => {
         <nav className="fixed top-0 left-0 right-0 bg-gradient-to-r from-[#705d5d] via-[#a486a9] to-[#264663] py-4 shadow-lg z-50">
             <div className="flex items-center justify-between px-4">
                 <div className="text-3xl font-extrabold text-white" style={{ fontFamily: 'Great Vibes, cursive' }}>
-                    J + M
+                    W + F
                 </div>
                 <button
                     className="md:hidden text-white focus:outline-none"

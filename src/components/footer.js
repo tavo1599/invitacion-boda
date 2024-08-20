@@ -4,13 +4,13 @@ import React from 'react';
 const Footer = () => {
     return (
         <footer className="bg-black text-white py-4">
-            <div className="container mx-auto flex justify-between items-center">
-                <div className="text-left ml-11">
-                    <p className="text-lg font-bold">José y Mileydi</p>
-                    <p className="text-sm">15 de agosto 2024</p>
+            <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
+                <div className="text-center md:text-left mb-4 md:mb-0">
+                    <p className="text-lg font-bold">Wilfredo y Fany</p>
+                    <p className="text-sm">12 de Octubre 2024</p>
                 </div>
-                <div className="text-right mr-11">
-                    <p className="text-sm">Hecho con amor por Grupo Manis. © Todos los derechos reservados.</p>
+                <div className="text-center md:text-right">
+                    <p className="text-sm">Hecho con amor por Grupo Peanuts. © Todos los derechos reservados.</p>
                 </div>
             </div>
         </footer>
@@ -18,3 +18,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

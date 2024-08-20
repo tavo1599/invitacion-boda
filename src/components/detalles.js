@@ -13,26 +13,10 @@ const Detalles = () => {
                 <img src={Icono1} alt="Icono" className="w-20 h-20 mb-4" />
                 </div>
                     <h2 className="text-2xl font-serif font-semibold mb-2">Ceremonia</h2>
-                    <p className="text-4xl font-semibold">4 pm</p>
-                    <p className="text-lg">Dirección: Iglesia San Pedro, Calle Principal 123, Ciudad</p>
+                    <p className="text-4xl font-semibold">10 am</p>
+                    <p className="text-lg">Iglesia: Templo Matriz de Santa Catalina</p>
                     <a
-                        href="https://maps.google.com/?q=Registro+Civil+de+la+Ciudad,+Avenida+de+la+Ley+456,+Ciudad"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-teal-600 hover:underline"
-                    >
-                        Ubicación en el mapa
-                    </a>
-                </div>
-                <div className="flex-1">
-                <div className="flex justify-center">
-                <img src={Icono2} alt="Icono" className="w-20 h-20 mb-4" />
-                </div>
-                    <h2 className="text-2xl font-serif font-semibold mb-2">Civil</h2>
-                    <p className="text-4xl font-semibold">2 pm</p>
-                    <p className="text-lg">Dirección: Registro Civil de la Ciudad, Avenida de la Ley 456, Ciudad</p>
-                    <a
-                        href="https://maps.google.com/?q=Registro+Civil+de+la+Ciudad,+Avenida+de+la+Ley+456,+Ciudad"
+                        href="https://maps.app.goo.gl/cvujk3qg8iXQ6Yin7"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-teal-600 hover:underline"
@@ -45,10 +29,10 @@ const Detalles = () => {
                 <img src={Icono3} alt="Icono" className="w-20 h-20 mb-4" />
                 </div>
                     <h2 className="text-2xl font-serif font-semibold mb-2">Recepción</h2>
-                    <p className="text-4xl font-semibold">6 pm</p>
-                    <p className="text-lg">Dirección: Hotel Grand Plaza, Avenida de la Fiesta 789, Ciudad</p>
+                    <p className="text-4xl font-semibold">1 pm</p>
+                    <p className="text-lg">Dirección: Local 'Florentina, Jr. Carabaya Nº 613'</p>
                     <a
-                        href="https://maps.google.com/?q=Registro+Civil+de+la+Ciudad,+Avenida+de+la+Ley+456,+Ciudad"
+                        href="https://maps.app.goo.gl/QQ1KoTjDBcbHaUZe6"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-teal-600 hover:underline"
