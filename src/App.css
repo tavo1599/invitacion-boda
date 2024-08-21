@@ -1,5 +1,30 @@
 .App {
-  text-align: center;
+  overflow-x: hidden; /* Previene el desbordamiento horizontal */
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+* {
+  box-sizing: border-box;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  overflow-x: hidden;
+}
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 .App-logo {
@@ -15,13 +40,13 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  overflow-x: hidden; /* Previene el desbordamiento horizontal en el header */
 }
 
 .App-link {

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
 import Swal from 'sweetalert2';
-import Icono from '../assets/icons/camara.png';
 
 const Recuerdo = () => {
     const [file, setFile] = useState(null);
@@ -145,7 +144,7 @@ const Recuerdo = () => {
             <div className="p-8 rounded-lg flex flex-col md:flex-row">
                 <div className="flex-1">
                     <div className="flex justify-center">
-                        <img src={Icono} alt="Icono" className="w-20 h-20 mb-4" />
+                        <img src="/miboda/images/camara.png" alt="Icono" className="w-20 h-20 mb-4" />
                     </div>
                     <h1 className="text-6xl font-bold mb-4 text-center">¡Comparte tus Recuerdos!</h1>
                     <p className="text-lg mb-6 text-center">

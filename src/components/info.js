@@ -1,12 +1,12 @@
 import React from 'react';
-import Icono from '../assets/icons/anillos-de-boda.png';
+
 
 const Info = () => {
     return (
         <div className="w-full py-36 text-white">
             <div className="max-w-3xl mx-auto px-4 text-center">
                 <div className="flex justify-center">
-                    <img src={Icono} alt="Icono" className="w-20 h-20 mb-4" />
+                    <img src="/miboda/images/anillos-de-boda.png" alt="Icono" className="w-20 h-20 mb-4" />
                 </div>
                 <p className="text-5xl mb-12 font-dancing-script">¡Bienvenidos a nuestro matrimonio!</p>
                 <p className="text-2xl mb-4 font-dancing-script">¡Adivina! ¡Nos casamos!</p>

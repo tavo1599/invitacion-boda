@@ -1,7 +1,7 @@
 // src/components/Header.js
 import React from 'react';
 import Countdown from './Countdown'; // Asegúrate de importar el componente Countdown
-import Icono from '../assets/icons/corazon.png';
+
 
 const Header = () => {
     const targetDate = "2024-10-12T00:00:00";
@@ -24,7 +24,7 @@ const Header = () => {
             <div
                 className="absolute inset-0 bg-cover bg-center"
                 style={{
-                    backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.5)), url(/images/image3.jpg)',
+                    backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.5)), url(/miboda/images/image3.jpg)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                 }}

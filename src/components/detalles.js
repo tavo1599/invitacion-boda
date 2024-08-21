@@ -1,7 +1,5 @@
 import React from 'react';
-import Icono1 from '../assets/icons/iglesia.png';
-import Icono2 from '../assets/icons/civil.png';
-import Icono3 from '../assets/icons/fiesta.png';
+
 
 const Detalles = () => {
  return (
@@ -10,7 +8,7 @@ const Detalles = () => {
             <div className="flex flex-col md:flex-row justify-center gap-8">
                 <div className="flex-1">
                 <div className="flex justify-center">
-                <img src={Icono1} alt="Icono" className="w-20 h-20 mb-4" />
+                <img src="/miboda/images/iglesia.png"  alt="Icono" className="w-20 h-20 mb-4" />
                 </div>
                     <h2 className="text-2xl font-serif font-semibold mb-2">Ceremonia</h2>
                     <p className="text-4xl font-semibold">10 am</p>
@@ -26,7 +24,7 @@ const Detalles = () => {
                 </div>
                 <div className="flex-1">
                 <div className="flex justify-center">
-                <img src={Icono3} alt="Icono" className="w-20 h-20 mb-4" />
+                <img src="/miboda/images/fiesta.png" alt="Icono" className="w-20 h-20 mb-4" />
                 </div>
                     <h2 className="text-2xl font-serif font-semibold mb-2">Recepción</h2>
                     <p className="text-4xl font-semibold">1 pm</p>

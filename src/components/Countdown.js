@@ -1,4 +1,4 @@
-import Icono from '../assets/icons/corazon.png';
+
 import React, { useState, useEffect, useCallback } from 'react';
 
 const Countdown = ({ targetDate }) => {
@@ -34,11 +34,11 @@ const Countdown = ({ targetDate }) => {
 
   return (
     <div className="relative flex flex-col items-center justify-center p-8">
-      <div className="relative flex items-center justify-center w-96 h-72 bg-white bg-opacity-90 rounded-full shadow-lg">
+      <div className="relative flex items-center justify-center w-80 h-80 bg-white bg-opacity-90 rounded-full shadow-lg">
         {/* Imagen de hojas doradas alrededor del borde */}
         <div className="absolute inset-0 flex items-center justify-center">
           <img 
-            src="/images/hojas2.png" 
+            src="/miboda/images/hojas2.png" 
             alt="Hojas doradas" 
             className="absolute inset-[-10%] w-[120%] h-[120%]"
             style={{ 
@@ -50,11 +50,11 @@ const Countdown = ({ targetDate }) => {
         </div>
         <div className="relative z-10 flex flex-col items-center text-center">
           {isTimeUp ? (
-            <h2 className="text-4xl font-extrabold mb-4 text-gray-800" style={{ fontFamily: 'Great Vibes, cursive' }}>¡Hoy es el gran día!</h2>
+            <h2 className="text-3xl font-extrabold mb-4 text-gray-800" style={{ fontFamily: 'Great Vibes, cursive' }}>¡Hoy es el gran día!</h2>
           ) : (
             <>
-              <h2 className="text-4xl font-extrabold mb-4 text-gray-800" style={{ fontFamily: 'Great Vibes, cursive' }}>Faltan:</h2>
-              <div className="flex items-center space-x-4 text-orange-600 text-2xl font-extrabold">
+              <h2 className="text-3xl font-extrabold mb-4 text-gray-800" style={{ fontFamily: 'Great Vibes, cursive' }}>Faltan:</h2>
+              <div className="flex items-center space-x-2 text-orange-600 text-2xl font-extrabold">
                 {Object.keys(timeLeft).map((unit, index) => {
                   const unitLabels = {
                     days: 'Días',
@@ -64,7 +64,7 @@ const Countdown = ({ targetDate }) => {
                   };
                   return (
                     <div key={unit} className="flex flex-col items-center">
-                      <div className="w-16 h-16 flex items-center justify-center bg-white bg-opacity-50 rounded-full" style={{ color: 'rgba(255, 165, 0, 0.5)', fontSize: '2rem', fontWeight: 'bold' }}>
+                      <div className="w-16 h-16 flex items-center justify-center  bg-opacity-50 rounded-full" style={{ color: 'rgba(255, 165, 0, 0.5)', fontSize: '2rem', fontWeight: 'bold' }}>
                         {timeLeft[unit]}
                       </div>
                       <div className="mt-2 text-black text-lg" style={{ fontFamily: 'Playwrite AT, cursive' }}>{unitLabels[unit]}</div>
@@ -74,7 +74,7 @@ const Countdown = ({ targetDate }) => {
               </div>
               
               <div className='mt-10 flex justify-center'>
-                <h2 className="text-4xl font-extrabold mb-4 text-gray-800" style={{ fontFamily: 'Great Vibes, cursive' }}>Para Nuestra Boda</h2>
+                <h2 className="text-3xl font-extrabold mb-4 text-gray-800" style={{ fontFamily: 'Great Vibes, cursive' }}>Para Nuestra Boda</h2>
               </div>
             </>
           )}

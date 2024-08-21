@@ -9,12 +9,12 @@ import Asistencia from './components/asistencia';
 import Confirmacion from './components/confirmacion';
 import Recuerdo from './components/recuerdos';
 import Footer from './components/footer';
-
+import AudioPlayer from './components/AudioPlayer';
 
 function App() {
     return (
         <Router>
-        <div className="bg-zinc-900 text-white min-h-screen">
+        <div className="bg-zinc-900 text-white min-h-screen overflow-x-hidden">
             <Navbar />
             <Header />
             <Info/>
@@ -26,6 +26,7 @@ function App() {
             </Routes>
             <Recuerdo/>
             <Footer/>
+            <AudioPlayer />
         </div>
         </Router>
     );

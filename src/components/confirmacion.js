@@ -53,7 +53,7 @@ const Confirmacion = () => {
                 } else {
                     Swal.fire({
                         title: "Ocurrió un error en el servidor!",
-                        text: "Reportalo a 918982123",
+                        text: "Reportalo a 906771606",
                         icon: "error"
                     });
                 }
@@ -91,7 +91,7 @@ const Confirmacion = () => {
                 } else {
                     Swal.fire({
                         title: "Ocurrió un error en el servidor!",
-                        text: "Reportalo a 918982123",
+                        text: "Reportalo a 906771606",
                         icon: "error"
                     });
                 }

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Icono from '../assets/icons/confirmar-asistencia.png';
 import axios from 'axios';
 import { API_URL } from './env';
 import Swal from 'sweetalert2';
@@ -131,7 +130,7 @@ const Mesa = ({ numGuests, name, guestId }) => {
             {showConfirmation ? (
                 <div className="text-center bg-neutral-700 text-pink-200">
                     <div className="flex justify-center">
-                        <img src={Icono} alt="Icono" className="w-24 h-24 mb-4 my-9" />
+                        <img src="/miboda/images/confirmar-asistencia.png" alt="Icono" className="w-24 h-24 mb-4 my-9" />
                     </div>
                     <h1 className="text-2xl font-bold mb-4 ">¡Confirmación de Asistencia!</h1>
                     <p className="text-lg mb-4 ">Tu selección de mesa y sillas ha sido registrada con éxito.</p>
