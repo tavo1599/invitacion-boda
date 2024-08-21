@@ -10,24 +10,29 @@ import Confirmacion from './components/confirmacion';
 import Recuerdo from './components/recuerdos';
 import Footer from './components/footer';
 import AudioPlayer from './components/AudioPlayer';
+import GuestTable from './components/GuestTable';
 
 function App() {
     return (
         <Router>
-        <div className="bg-zinc-900 text-white min-h-screen overflow-x-hidden">
-            <Navbar />
-            <Header />
-            <Info/>
-            <Detalles/>
-            <Asistencia/>
-            
             <Routes>
-            <Route path="/confirmacion" element={<Confirmacion />} />
+                <Route path="/" element={
+                    <div className="bg-zinc-900 text-white min-h-screen overflow-x-hidden">
+                        <Navbar />
+                        <Header />
+                        <Info/>
+                        <Detalles/>
+                        <Asistencia/>
+                        <Routes>
+                            <Route path="/confirmacion" element={<Confirmacion />} />
+                        </Routes>
+                        <Recuerdo/>
+                        <Footer/>
+                        <AudioPlayer />
+                    </div>
+                } />
+                <Route path="/admin/guests" element={<GuestTable />} />
             </Routes>
-            <Recuerdo/>
-            <Footer/>
-            <AudioPlayer />
-        </div>
         </Router>
     );
 }
